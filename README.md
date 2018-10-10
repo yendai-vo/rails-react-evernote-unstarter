@@ -24,7 +24,7 @@ PORT=4000 npm start
 
 ```sh
 # from within this directory:
-rails new backend
+rails new backend --api -T --database=postgresql
 ```
 
 ## Base Deliverables

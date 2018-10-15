@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  has_many :posts
-  has_many :comments
-  has_secure_password
-  # has_one_attached :u_image
+    has_many :albums
+    has_many :photos, through: :albums
+    has_many :comments
 end

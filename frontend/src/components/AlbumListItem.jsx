@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-class GalleryList extends Component {
+class AlbumListItem extends Component {
   render() {
     return (
       <div>
@@ -10,4 +10,4 @@ class GalleryList extends Component {
   }
 }
 
-export default GalleryList;
+export default AlbumListItem;

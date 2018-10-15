@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 
-class GalleryListItem extends Component {
+class AlbumGallery extends Component {
+
+  
+
   render() {
     return (
       <div>
+        This is my Album Gallery!
         
       </div>
     )
   }
 }
 
-export default GalleryListItem;
+export default AlbumGallery;

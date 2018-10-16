@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
-import GalleryContainer from './containers/GalleryContainer';
+import Header from './Layout/Header';
+import Content from './Layout/Content';
+import Footer from './Layout/Footer';
+
 
 class App extends Component {
   render() {
     return (
       <div >
-        <GalleryContainer />
+        <Header/>
+        <Content>{this.props.children}</Content>
+        <Footer/>
       </div>
     );
   }

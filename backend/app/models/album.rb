@@ -1,5 +1,6 @@
 class Album < ApplicationRecord
     belongs_to :user
-    belongs_to :photo
+    has_many :photoalbums
+    has_many :photos, through: :photoalbums
     has_one_attached :picture
 end

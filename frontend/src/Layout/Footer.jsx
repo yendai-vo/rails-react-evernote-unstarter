@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <div>
       <footer>
-        &copy blah
+        This is where my footer will be. Wheeeeeeeeeee!
       </footer>
     </div>
   )

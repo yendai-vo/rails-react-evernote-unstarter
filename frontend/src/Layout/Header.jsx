@@ -1,17 +1,52 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-export default class Header extends Component {
-  render() {
-    return (
-      <div>
-        <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-            <li><Link to="/login">login</Link></li>
-        </ul>
-      </div>
-    )
-  }
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+};
+
+function ButtonAppBar(props) {
+  const { classes } = props;
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" color="inherit" className={classes.grow}>
+            My App
+          </Typography>
+          <Button color="inherit"><Link to="/">Home</Link></Button>
+          <Button color="inherit"><Link to="/profile">Profile</Link></Button>
+          <Button color="inherit"><Link to="/login">login</Link></Button>
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
+
+ButtonAppBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(ButtonAppBar);
+

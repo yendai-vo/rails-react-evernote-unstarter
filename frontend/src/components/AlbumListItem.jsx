@@ -19,28 +19,31 @@ const styles = {
 };
 
 function AlbumListItem(props) {
-  const { classes } = props;
+  const { classes, image, description, title, id, handleDelete } = props;
   return (
     <div>  
       <Card className={classes.card}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image="https://www.moneysense.ca/wp-content/uploads/2017/01/vacation.jpg"
+            image={image}
             title="Beach with House"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              Bali
+              {title}
             </Typography>
             <Typography component="p">
-              This is the trip to Bali, Indonesia. How amazing it was! I wish I was there right now. Please take me back!
+              {description}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
           <Button size="small" color="primary">
             Open Gallery
+          </Button>
+          <Button size="small" color="primary" onClick={() => handleDelete(id)}>
+            Delete
           </Button>
         </CardActions>
       </Card><br/>

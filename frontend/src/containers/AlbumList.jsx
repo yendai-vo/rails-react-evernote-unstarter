@@ -1,63 +1,66 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
-import AlbumListItem from '../components/AlbumListItem';
+// import ReactDOM from "react-dom";
+// import AlbumListItem from '../components/AlbumListItem';
 
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 
 class AlbumList extends Component {
-  state = {
-    image_url: '',
-    albums: [],
-  }
+  // state = {
+  //   image_url: '',
+  //   albums: [],
+  // }
 
-  componentDidMount() {
-    this.fetchAlbums()
-  }
+  // componentDidMount() {
+  //   this.fetchAlbums()
+  // }
 
-  fetchAlbums = () => {
+  // fetchAlbums = () => {
 
-    fetch("http://localhost:3001/albums")
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ albums: data })});
-  }
+  //   fetch("http://localhost:3001/albums")
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       this.setState({ albums: data })});
+  // }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  // handleSubmit = (e) => {
+  //   // e.preventDefault();
 
-    const data = new FormData(e.target);
+  //   const data = new FormData(e.target);
 
-    // console.log(data)
-    // debugger
+  //   // console.log(data)
+  //   // debugger
 
-    fetch("http://localhost:3001/albums", {
-      method: "POST",
-      body: data
-    }).then(res => res.json())
-    .then(data => {
-      this.setState({
-        image_url: data.image_url
-      })
-    })
-  }
+  //   fetch("http://localhost:3001/albums", {
+  //     method: "POST",
+  //     body: data
+  //   }).then(res => res.json())
+  //   .then(data => {
+  //     this.setState({
+  //       image_url: data.image_url
+  //     })
+  //   })
+  // }
 
-  handleDelete = id => {
-    fetch(`http://localhost:3001/albums/${id}`, {
-      method: "delete",
-    })
-    this.fetchAlbums()
-  }
+  // handleDelete = id => {
+  //   fetch(`http://localhost:3001/albums/${id}`, {
+  //     method: "delete",
+  //   })
 
-  renderAlbums = () => (
-    this.state.albums.map(item => (
-      <AlbumListItem handleDelete={this.handleDelete} id={item.id} image={item.image_url} title={item.name} description={item.description} />
-  )))
+  //   this.fetchAlbums()
+  // }
+
+  // renderAlbums = () => {
+  //   debugger
+  //  return this.state.albums.map(item => (
+  //     <AlbumListItem handleDelete={this.handleDelete} id={item.id} image={item.image_url} title={item.name} description={item.description} />
+  // )).sort(function(a, b) {
+  //   return a - b}).reverse()}
 
   render() {
     return (
       <div>
-        Welcome to Your Album List!
-        <div><Button variant="contained" color="primary">Add a New Album</Button></div>
+        
+        {/* <div><Button variant="contained" color="primary" >Add a New Album</Button></div>
         <form onSubmit={this.handleSubmit} >
           <input type="text" name="user_id" style={{display:'none'}} value='1' placeholder="your user_id" />
           <input type="text" name="name" placeholder="Your Album Title" />
@@ -70,7 +73,7 @@ class AlbumList extends Component {
         </div>
         <div>
           {this.renderAlbums()}
-        </div>
+        </div> */}
       </div>
     )
   }

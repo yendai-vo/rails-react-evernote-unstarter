@@ -21,7 +21,7 @@ const styles = {
 function AlbumListItem(props) {
   const { classes, image, description, title, id, handleDelete } = props;
   return (
-    <div>  
+    <div onClick={() => props.handleClick(props)}>  
       <Card className={classes.card}>
         <CardActionArea>
           <CardMedia
@@ -40,10 +40,10 @@ function AlbumListItem(props) {
         </CardActionArea>
         <CardActions>
           <Button size="small" color="primary">
-            Open Gallery
+            Open Album
           </Button>
           <Button size="small" color="primary" onClick={() => handleDelete(id)}>
-            Delete
+            Delete Album
           </Button>
         </CardActions>
       </Card><br/>
@@ -56,16 +56,3 @@ AlbumListItem.propTypes = {
 };
 
 export default withStyles(styles)(AlbumListItem);
-
-// class AlbumListItem extends Component {
-//   render(props) {
-//     return (
-//       <div>
-//         <div>My Album List Item Title</div>
-//         <img src = "https://www.moneysense.ca/wp-content/uploads/2017/01/vacation.jpg" alt="Beach picture" width='auto' height='200'/>
-//       </div>
-//     )
-//   }
-// }
-
-// export default AlbumListItem;

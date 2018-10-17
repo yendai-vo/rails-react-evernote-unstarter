@@ -37,7 +37,8 @@ function ButtonAppBar(props) {
           </Typography>
           <Button color="inherit"><Link to="/">Home</Link></Button>
           <Button color="inherit"><Link to="/profile">Profile</Link></Button>
-          <Button color="inherit"><Link to="/login">login</Link></Button>
+          <Button color="inherit"><Link to="/login">Login</Link></Button>
+          <Button color="inherit"><Link to="/signup">SignUp</Link></Button>
         </Toolbar>
       </AppBar>
     </div>

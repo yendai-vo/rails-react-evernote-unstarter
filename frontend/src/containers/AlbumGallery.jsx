@@ -10,7 +10,7 @@ class AlbumGallery extends Component {
         <p>Album Name: {this.props.chosenAlbum.title}</p>
         <img src={this.props.chosenAlbum.image} className="img-fluid" />
         <p>Description: {this.props.chosenAlbum.description}</p>
-        <Button variant="contained" color="primary" >Edit</Button>
+        <Button variant="contained" color="primary" onClick={() => this.props.handleEdit(this.props.chosenAlbum.id)}>Edit</Button>
       </React.Fragment>
     )
   }

@@ -73,6 +73,21 @@ class GalleryContainer extends Component {
     })
   }
 
+
+  handleEdit = (id) => {
+    const editData = {name: this.state.chosenAlbum.title, description: this.state.chosenAlbum.description}
+
+    fetch(`http://localhost:3001/albums/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({editData}),
+      headers: {
+        "Access-Control-Request-Method": "PUT",
+        "content-type": "application/json", "accept": "application/json"
+      }
+    }).then(res => res.json())
+    .then(console.log)
+  }
+
   handleDelete = id => {
     fetch(`http://localhost:3001/albums/${id}`, {
       method: "delete",
@@ -96,6 +111,7 @@ class GalleryContainer extends Component {
     return a - b}).reverse()}
 
   render() {
+    console.log(this.state)
     return (
       <div >
         <div className="row">
@@ -117,12 +133,12 @@ class GalleryContainer extends Component {
           <img src={this.state.image_url} />
 
 
-          {this.renderAlbums()}
+          {this.state.albums.length ? this.renderAlbums() : null}
 
 
         </div>
         <div className="col-sm-8">
-          <AlbumGallery chosenAlbum={this.state.chosenAlbum}/>
+          <AlbumGallery chosenAlbum={this.state.chosenAlbum} handleEdit={this.handleEdit}/>
         </div>
 {/* end */}
 

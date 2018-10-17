@@ -1,13 +1,9 @@
 class AlbumsController < ApplicationController
+  before_action :set_album, only: [:edit, :update]
+
   def index
     albums = Album.all
     render json: albums, image_url: get_image_url
-  end
-
-  def show
-  end
-
-  def new
   end
 
   def create
@@ -20,6 +16,12 @@ class AlbumsController < ApplicationController
   end
 
   def edit
+    
+  end
+
+  def update
+    set_album.update(album_params)
+    render json: @album, image_url: get_image_url
   end
 
   def destroy
@@ -27,6 +29,10 @@ class AlbumsController < ApplicationController
   end
 
 private
+
+  def set_album
+    @album = Album.find(params[:id])
+  end
 
   def album_params
     params.permit(:id, :name, :description, :picture, :user_id)

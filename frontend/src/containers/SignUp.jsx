@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,98 +14,117 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 const styles = theme => ({
-  layout: {
-    width: 'auto',
-    display: 'block', // Fix IE11 issue.
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+    layout: {
+      width: 'auto',
+      display: 'block', // Fix IE11 issue.
+      marginLeft: theme.spacing.unit * 3,
+      marginRight: theme.spacing.unit * 3,
+      [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+        width: 400,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      },
     },
-  },
-  paper: {
-    marginTop: theme.spacing.unit * 8,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
-  },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE11 issue.
-    marginTop: theme.spacing.unit,
-  },
-  submit: {
-    marginTop: theme.spacing.unit * 3,
-  },
-});
+    paper: {
+      marginTop: theme.spacing.unit * 8,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    },
+    avatar: {
+      margin: theme.spacing.unit,
+      backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+      width: '100%', // Fix IE11 issue.
+      marginTop: theme.spacing.unit,
+    },
+    submit: {
+      marginTop: theme.spacing.unit * 3,
+    },
+  });
+class SignUp extends Component {
 
-function SignUp(props) {
-  const { classes } = props;
+  state = {
+    success: false,
+  }  
 
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <main className={classes.layout}>
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign Up
-          </Typography>
-          <form className={classes.form}>
-          <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="firstname">First name</InputLabel>
-              <Input id="firstname" name="firstname" autoComplete="firstname" autoFocus />
-            </FormControl>
+  handleSubmit = (e) => {
+    const data = new FormData(e.target);
 
+    fetch("http://localhost:3001/users", {
+      method: "POST",
+      body: data
+    }).then(res => res.json())
+    .then(data => {
+      this.setState({
+        success: true
+      })
+    })
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+        <React.Fragment>
+        <CssBaseline />
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign Up
+            </Typography>
+            <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="lastname">Last name</InputLabel>
-              <Input id="lastname" name="lastname" autoComplete="lastname" autoFocus />
-            </FormControl>
-
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="username">Username</InputLabel>
-              <Input id="username" name="username" autoComplete="username" autoFocus />
-            </FormControl>
-
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input
-                name="password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                <InputLabel htmlFor="first_name">First name</InputLabel>
+                <Input id="firstname" name="first_name" autoComplete="first_name" autoFocus />
+              </FormControl>
+  
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="last_name">Last name</InputLabel>
+                <Input id="lastname" name="last_name" autoComplete="last_name" autoFocus />
+              </FormControl>
+  
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="username">Username</InputLabel>
+                <Input id="username" name="username" autoComplete="username" autoFocus />
+              </FormControl>
+  
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="password">Password</InputLabel>
+                <Input
+                  name="password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+              </FormControl>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
               />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign Me Up!
-            </Button>
-          </form>
-        </Paper>
-      </main>
-    </React.Fragment>
-  );
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign Me Up!
+              </Button>
+            </form>
+          </Paper>
+        </main>
+      </React.Fragment>
+    )
+  }
 }
 
 SignUp.propTypes = {
-  classes: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(SignUp);

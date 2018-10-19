@@ -59,7 +59,6 @@ class GalleryContainer extends Component {
 
   handleSubmit = (e) => {
     // e.preventDefault();
-
     const data = new FormData(e.target);
 
     fetch("http://localhost:3001/albums", {

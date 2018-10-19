@@ -66,10 +66,10 @@ ActiveRecord::Schema.define(version: 2018_10_16_215355) do
 
   create_table "photos", force: :cascade do |t|
     t.string "title"
-    t.bigint "user_id"
+    t.bigint "album_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_photos_on_user_id"
+    t.index ["album_id"], name: "index_photos_on_album_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -84,5 +84,5 @@ ActiveRecord::Schema.define(version: 2018_10_16_215355) do
   add_foreign_key "albums", "users"
   add_foreign_key "comments", "photos"
   add_foreign_key "comments", "users"
-  add_foreign_key "photos", "users"
+  add_foreign_key "photos", "albums"
 end

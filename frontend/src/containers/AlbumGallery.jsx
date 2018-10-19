@@ -1,19 +1,114 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-class AlbumGallery extends Component {
+import PhotoCard from '../components/PhotoCard';
+import PropTypes from 'prop-types';
 
-  
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+const styles = theme => ({
+  layout: {
+    width: 'auto',
+    display: 'block', // Fix IE11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  form: {
+    width: '100%', // Fix IE11 issue.
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3,
+  },
+});
+class AlbumGallery extends Component {
+  state = {
+    image_url: '',
+    photos: [],
+  }
+
+  componentDidMount() {
+    this.fetchPhotos()
+  }
+
+  fetchPhotos = () => {
+
+    fetch("http://localhost:3001/photos")
+      .then(res => res.json())
+      .then(data => {
+        this.setState({ photos: data })});
+  }
+
+  handleSubmit = (e) => {
+    // e.preventDefault();
+    const data = new FormData(e.target);
+
+    fetch("http://localhost:3001/photos", {
+      method: "POST",
+      body: data
+    }).then(res => res.json())
+    .then(data => {
+      this.setState({
+        image_url: data.image_url
+      })
+    })
+  }
+
+  renderPhotos = () => {
+    return this.state.photos.map(item => (
+       <PhotoCard
+       id={item.id} 
+       image={item.image_url} 
+       title={item.title} 
+       />
+   )).sort(function(a, b) {
+     return a - b}).reverse()}
 
   render() {
+    const { classes } = this.props;
+
     return (
       <React.Fragment>
-        <p>Album Name: {this.props.chosenAlbum.title}</p>
+        <CssBaseline />
+        {/* <p>Album Name: {this.props.chosenAlbum.title}</p>
         <img src={this.props.chosenAlbum.image} className="img-fluid" />
         <p>Description: {this.props.chosenAlbum.description}</p>
-        <Button variant="contained" color="primary" onClick={() => this.props.handleEdit(this.props.chosenAlbum.id)}>Edit</Button>
+        <Button variant="contained" color="primary" onClick={() => this.props.handleEdit(this.props.chosenAlbum.id)}>Edit</Button> */}
+
+        <form className={classes.form} onSubmit={this.handleSubmit}>
+          <FormControl margin="normal">
+            <InputLabel htmlFor="Title">Title</InputLabel>
+            <Input id="title" name="title" autoComplete="title" autoFocus />
+          </FormControl>
+
+          <FormControl margin="normal" fullWidth >
+            <Input type="file" id="file" name="file" autoComplete="file" autoFocus multiple/>
+          </FormControl>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}>
+            Submit Photo
+          </Button>
+        </form>
+        {this.renderPhotos}
       </React.Fragment>
     )
   }
 }
 
-export default AlbumGallery;
+AlbumGallery.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(AlbumGallery);

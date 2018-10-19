@@ -15,7 +15,6 @@ class UsersController < ApplicationController
       @user.save
     else
       flash[:error_message] = user.errors.full_messages.join(', ')
-      render :new
     end
   end
 
@@ -25,7 +24,7 @@ class UsersController < ApplicationController
 private
 
   def user_params
-    params.permit(:id, :first_name, :last_name,:username, :password)
+    params.permit(:id, :first_name, :last_name, :username, :password)
   end
 
   def set_user

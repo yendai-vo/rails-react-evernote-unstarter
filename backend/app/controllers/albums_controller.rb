@@ -3,16 +3,16 @@ class AlbumsController < ApplicationController
 
   def index
     albums = Album.all
-    render json: albums, image_url: get_image_url
+    render json: albums
   end
 
   def create
     # debugger
     album = Album.create!(album_params)
     # file = params[:picture].tempfile.path
-    url = url_for(album.picture)
+    # url = url_for(album.picture)
     # render json: {album: album, filename: "#{file}"}
-    render json:  album, image_url: url
+    render json: album
   end
 
   def edit
@@ -20,8 +20,8 @@ class AlbumsController < ApplicationController
   end
 
   def update
-    set_album.update(album_params)
-    render json: @album, image_url: get_image_url
+    # set_album.update(album_params)
+    # render json: @album, image_url: get_image_url
   end
 
   def destroy
@@ -35,6 +35,6 @@ private
   end
 
   def album_params
-    params.permit(:id, :name, :description, :picture, :user_id)
+    params.permit(:id, :name, :description, :user_id)
   end
 end

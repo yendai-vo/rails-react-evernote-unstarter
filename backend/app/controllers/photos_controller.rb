@@ -6,9 +6,6 @@ class PhotosController < ApplicationController
     render json: photos, image_url: get_image_url
   end
 
-  def show
-  end
-
   def create
     photo = Photo.create!(photo_params)
     url = url_for(photo.picture)

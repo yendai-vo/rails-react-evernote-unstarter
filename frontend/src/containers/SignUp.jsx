@@ -51,13 +51,17 @@ class SignUp extends Component {
   }  
 
   handleSubmit = (e) => {
+    e.preventDefault()
     const data = new FormData(e.target);
 
-    fetch("http://localhost:3001/users", {
+    fetch("http://localhost:3001/api/v1/users", {
       method: "POST",
       body: data
-    }).then(res => res.json())
-    .then(data => {
+    })
+    .then(res => res.json())
+    .then(apidata => {
+      debugger
+      localStorage.token = apidata.jwt
       this.setState({
         success: true
       })
@@ -79,12 +83,12 @@ class SignUp extends Component {
             </Typography>
             <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="first_name">First name</InputLabel>
+                <InputLabel htmlFor="first_name">First Name</InputLabel>
                 <Input id="firstname" name="first_name" autoComplete="first_name" autoFocus />
               </FormControl>
   
               <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="last_name">Last name</InputLabel>
+                <InputLabel htmlFor="last_name">Last Name</InputLabel>
                 <Input id="lastname" name="last_name" autoComplete="last_name" autoFocus />
               </FormControl>
   

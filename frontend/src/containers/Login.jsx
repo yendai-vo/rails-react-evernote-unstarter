@@ -58,8 +58,8 @@ class Login extends Component {
     let username = e.target.username.value;
     let password = e.target.password.value;
 
-    console.log(username)
-    console.log(password)
+    // console.log(username)
+    // console.log(password)
 
     fetch("http://localhost:3001/api/v1/login", {
       method: "POST",
@@ -84,7 +84,7 @@ class Login extends Component {
             : console.log(res)
       )
       .then(
-        _ => (this.state.loggedIn ? this.props.history.push("/profile") : null)
+        _ => (this.state.loggedIn ? this.props.history.push("/profile") : window.alert('Invalid Username or Password'))
       );
   }
 

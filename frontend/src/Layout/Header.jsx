@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter} from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,31 +23,40 @@ const styles = {
   },
 };
 
-function ButtonAppBar(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
-            My App
-          </Typography>
-          <Button color="inherit"><Link to="/">Home</Link></Button>
-          <Button color="inherit"><Link to="/profile">Profile</Link></Button>
-          <Button color="inherit"><Link to="/login">Login</Link></Button>
-          <Button color="inherit"><Link to="/signup">SignUp</Link></Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+class ButtonAppBar extends Component {
+  
+  handleClick = () => {
+    localStorage.clear();
+    this.props.history.push('/login')
+  }
+
+  render(){
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" className={classes.grow}>
+              My App
+            </Typography>
+            <Button color="inherit"><Link to="/">Home</Link></Button>
+            <Button color="inherit"><Link to="/profile">Profile</Link></Button>
+            <Button color="inherit"><Link to="/login">Login</Link></Button>
+            <Button color="inherit"><Link to="/signup">SignUp</Link></Button>
+            <Button color="inherit" onClick={this.handleClick}>Logout</Button>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ButtonAppBar);
+export default (withStyles(styles)) (withRouter(ButtonAppBar));
 

@@ -38,6 +38,8 @@ class GalleryContainer extends Component {
     image_url: '',
     albums: [],
     search: '',
+    title: '',
+    description: '',
     chosenAlbum: []
   }
 
@@ -100,7 +102,8 @@ class GalleryContainer extends Component {
     }).then(res => res.json())
     .then(data => {
       this.setState({
-        image_url: data.image_url
+        title: data.title,
+        description: data.description
       })
     })
   }

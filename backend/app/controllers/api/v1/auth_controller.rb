@@ -13,6 +13,11 @@ class Api::V1::AuthController < ApplicationController
     end
   end
 
+  def auth_user
+    token = decoded_token
+    render json: { owner: current_user}
+  end
+
   private
 
   def user_login_params

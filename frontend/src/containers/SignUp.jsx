@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -60,15 +61,18 @@ class SignUp extends Component {
     })
     .then(res => res.json())
     .then(apidata => {
-      debugger
+      // debugger
       localStorage.token = apidata.jwt
       this.setState({
         success: true
       })
     })
+    .then(() => 
+    this.props.history.push('/login'))
   }
 
   render() {
+    
     const { classes } = this.props;
     return (
         <React.Fragment>
@@ -116,10 +120,12 @@ class SignUp extends Component {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                // href='/login'
               >
                 Sign Me Up!
               </Button>
             </form>
+            <p>Already have an account? <a href='/login'>Login</a></p>
           </Paper>
         </main>
       </React.Fragment>

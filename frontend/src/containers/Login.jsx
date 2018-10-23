@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,6 +12,7 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+
 
 const styles = theme => ({
   layout: {
@@ -45,11 +46,52 @@ const styles = theme => ({
   },
 });
 
-function Login(props) {
-  const { classes } = props;
+class Login extends Component {
+  state = {
+    loggedIn: false,
+    username: '',
+    password: '',
+  }
 
-  return (
-    <React.Fragment>
+  validateUser = e => {
+    e.preventDefault();
+    let username = e.target.username.value;
+    let password = e.target.password.value;
+
+    console.log(username)
+    console.log(password)
+
+    fetch("http://localhost:3001/api/v1/login", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        user: {
+          username: username,
+          password: password
+        }
+      })
+    })
+    .then(res => res.json())
+      .then(
+        res =>
+          res.jwt
+            ? (localStorage.setItem("jwt", res.jwt),
+              this.setState({ loggedIn: true }))
+            : console.log(res)
+      )
+      .then(
+        _ => (this.state.loggedIn ? this.props.history.push("/profile") : null)
+      );
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <React.Fragment>
       <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
@@ -59,7 +101,7 @@ function Login(props) {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={this.validateUser}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="username">Username</InputLabel>
               <Input id="username" name="username" autoComplete="username" autoFocus />
@@ -90,11 +132,14 @@ function Login(props) {
         </Paper>
       </main>
     </React.Fragment>
-  );
+    )
+  }
 }
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+
+
+export default (withStyles(styles)(Login));

@@ -1,12 +1,37 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
+import PropTypes from 'prop-types';
 import SearchBar from '../components/SearchBar';
 import AlbumList from './AlbumList';
-import AlbumListItem from '../components/AlbumListItem';
 import AlbumGallery from './AlbumGallery';
 import '../GalCont.css';
 import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import withStyles from '@material-ui/core/styles/withStyles';
 
+const styles = theme => ({
+  layout: {
+    width: 'auto',
+    display: 'block', // Fix IE11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  form: {
+    width: '100%', // Fix IE11 issue.
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 3,
+  },
+});
 class GalleryContainer extends Component {
 
   state = {
@@ -22,9 +47,17 @@ class GalleryContainer extends Component {
 
   fetchAlbums = () => {
 
-    fetch("http://localhost:3001/albums")
+    fetch("http://localhost:3001/albums",{
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    })
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         this.setState({ albums: data })});
   }
 
@@ -58,7 +91,7 @@ class GalleryContainer extends Component {
   }
 
   handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     const data = new FormData(e.target);
 
     fetch("http://localhost:3001/albums", {
@@ -97,11 +130,11 @@ class GalleryContainer extends Component {
 
   renderAlbums = () => {
    return this.state.albums.map(item => (
-      <AlbumListItem 
+      <AlbumList 
       albums={this.filterAlbums()} 
       handleDelete={this.handleDelete} 
       id={item.id} 
-      image={item.image_url} 
+      // image={item.image_url} 
       title={item.name} 
       description={item.description} 
       handleClick={this.handleClick}
@@ -110,26 +143,40 @@ class GalleryContainer extends Component {
     return a - b}).reverse()}
 
   render() {
-    console.log(this.state)
+    const { classes } = this.props;
+    // console.log(this.state)
     return (
       <div >
         <div className="row">
           <div className="col-sm-12">
-            <SearchBar search={this.handleChange}/>
+            <SearchBar search={this.handleChange}/>&nbsp;
           </div>
         <div className="col-sm-4">
-        <Button variant="contained" color="primary" >Add a New Album</Button>
+        <h3>Album List</h3>
+        {/* <Button variant="contained" color="primary" >Add a New Album</Button> */}
         <div class="form-group">
-        <form onSubmit={this.handleSubmit} >
-          <input className="form-control" type="text" name="user_id" style={{display:'none'}} value='1' placeholder="your user_id" />
-          <input className="form-control" type="text" name="name" placeholder="Your Album Title" />
-          <div><textarea type="message" name="description" placeholder="Album Description" rows="5" cols="30"></textarea></div>
-          <div><input className="form-control" type="file" name="picture" /></div>
-          <div><input className="btn-lg btn-info" type="submit" /></div>
+        <form className={classes.form} onSubmit={this.handleSubmit}>
+          <FormControl margin="normal">
+            <InputLabel htmlFor="Title"> Album Title</InputLabel>
+            <Input id="title" name="title" autoComplete="title" autoFocus />
+          </FormControl>
+
+          <FormControl margin="normal" fullWidth>
+            <InputLabel htmlFor="Description"> Album Description</InputLabel>
+            <Input id="description" name="description" autoComplete="description" autoFocus />
+          </FormControl>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}>
+            Submit
+          </Button>
         </form>
         </div>
 
-          <img src={this.state.image_url} />
+          {/* <img src={this.state.image_url} /> */}
 
 
           {this.state.albums.length ? this.renderAlbums() : null}
@@ -149,4 +196,8 @@ class GalleryContainer extends Component {
   }
 }
 
-export default GalleryContainer;
+GalleryContainer.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(GalleryContainer);

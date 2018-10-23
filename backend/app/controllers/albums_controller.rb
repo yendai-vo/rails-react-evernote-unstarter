@@ -2,13 +2,13 @@ class AlbumsController < ApplicationController
   before_action :set_album, only: [:edit, :update]
 
   def index
-    albums = Album.all
+    albums = current_user.albums.all
     render json: albums
   end
 
   def create
     # debugger
-    album = Album.create!(album_params)
+    album = Album.create(album_params)
     # file = params[:picture].tempfile.path
     # url = url_for(album.picture)
     # render json: {album: album, filename: "#{file}"}

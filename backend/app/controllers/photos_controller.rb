@@ -9,7 +9,6 @@ class PhotosController < ApplicationController
   def create
     photo = Photo.create!(photo_params)
     url = url_for(photo.picture)
-    # render json: {album: album, filename: "#{file}"}
     render json: photo, image_url: url
   end
 
@@ -25,5 +24,4 @@ private
   def photo_params
     params.permit(:id, :title, :picture, :album_id)
   end
-
 end

@@ -41,14 +41,22 @@ class AlbumGallery extends Component {
 
   fetchPhotos = () => {
 
-    fetch("http://localhost:3001/photos")
+    fetch("http://localhost:3001/photos",
+  {
+    headers: {
+      Authorization: `${localStorage.token}`, 
+      "Accept" : "Application/json",
+      "Content-Type": "Application/json"
+    }
+  })
       .then(res => res.json())
       .then(data => {
+        // debugger
         this.setState({ photos: data })});
   }
 
   handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     const data = new FormData(e.target);
 
     fetch("http://localhost:3001/photos", {
@@ -63,6 +71,7 @@ class AlbumGallery extends Component {
   }
 
   renderPhotos = () => {
+    if (!this.state.photos.length) return;
     return this.state.photos.map(item => (
        <PhotoCard
        id={item.id} 
@@ -82,7 +91,7 @@ class AlbumGallery extends Component {
         <img src={this.props.chosenAlbum.image} className="img-fluid" />
         <p>Description: {this.props.chosenAlbum.description}</p>
         <Button variant="contained" color="primary" onClick={() => this.props.handleEdit(this.props.chosenAlbum.id)}>Edit</Button> */}
-
+        <h3>Album Photos</h3>
         <form className={classes.form} onSubmit={this.handleSubmit}>
           <FormControl margin="normal">
             <InputLabel htmlFor="Title">Title</InputLabel>
@@ -93,6 +102,11 @@ class AlbumGallery extends Component {
             <Input type="file" id="file" name="file" autoComplete="file" autoFocus multiple/>
           </FormControl>
 
+          {/* <FormControl>
+            <InputLabel htmlFor="album">Album</InputLabel>
+            <Input id="album" name="album_id" autoComplete="album" type="text" style={{display:'none'}} value='1' placeholder="album_id" autoFocus />
+          </FormControl> */}
+
           <Button
             type="submit"
             variant="contained"
@@ -101,7 +115,7 @@ class AlbumGallery extends Component {
             Submit Photo
           </Button>
         </form>
-        {this.renderPhotos}
+        {this.renderPhotos()}
       </React.Fragment>
     )
   }
